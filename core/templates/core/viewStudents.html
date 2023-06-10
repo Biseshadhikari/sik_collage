@@ -1,0 +1,149 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%load myapp_extras%}
+<style>
+  .x{
+      background-color: rgb(242, 236, 236);
+      
+  }
+</style>
+
+<div class="container my-5">
+  <form action="" class="mb-2 ml-auto">
+    <div class="formgroup">
+
+      <input type="text" class="form-control" placeholder = "search here" name = "livesearch" id = "livesearch">
+    </div>
+  </form>
+  <!-- {{status}} -->
+    <ul class="nav nav-pills nav-fill border mb-3">
+
+        <li class="nav-item border-right">
+          <a class="nav-link {%if status == 0%} active {%endif%}" href="/viewstudents/"  >All</a>
+        </li>
+        <li class="nav-item border-right">
+          <a class="nav-link {%if status == 1%} active {%endif%}" href="?status=verified" >Verified</a>
+        </li>
+        <li class="nav-item border-right">
+          <a class="nav-link {%if status == 2 %} active {%endif%}" href="?status=Not_verified" >Not Verified</a>
+        </li>
+      </ul>
+      {%if students%}
+    <table class="table border-bottom ">  
+        <thead class="">
+          <tr>
+          
+            <th>Students</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id = "tbody">
+         {%for student in students%}
+            <tr>
+              
+                <td>
+                    {{student.name}}
+                </td>
+                <td> <a href="{%url 'core:detailview' student.id%}" class="btn btn-primary">View Detail</a></td>
+                
+            </tr>
+          {%endfor%}
+
+        </tbody>
+      </table>
+      <!-- {{page}} -->
+      <div class="container mt-2">
+        <div class="row ">
+            <div class="col-md-4 offset-lg-5">
+                {%if students.has_other_pages%}
+                <div>
+                    <ul class="pagination pagination-lg container ">
+                        {% if students.has_previous %}
+                        <li class="page-item ">
+                            <a class="page-link"
+                                href="{%my_url students.previous_page_number 'page' request.GET.urlencode %}" tabindex="-1"
+                                style="color: black;">Previous</a>
+                        </li>
+                        {%endif%}
+                        {%for i in students.paginator.page_range%}
+                        <!-- {{i}} -->
+                        <li class="page-item  "><a class="page-link {%if i == page %} x {%endif%}" href="{%my_url i 'page' request.GET.urlencode %}"
+                                style="color:rgb(56, 54, 51)">{{i}} </a></li>
+      
+                        {%endfor%}
+                        {% if students.has_next %}
+                        <li class="page-item ">
+                            <a class="page-link" href="{%my_url students.next_page_number 'page' request.GET.urlencode %}"
+                                tabindex="-1" style="color: black;">Next</a>
+                        </li>
+                        {%endif%}
+                    </ul>
+                </div>
+                {%endif%}
+            </div>
+        </div>
+        </div>
+      
+      {%else%}
+      <div class="alert alert-dark" role="alert">
+        No records available
+      </div>
+      {%endif%}
+  </div>
+<script>
+   $("#livesearch").keyup(function(){
+      var livesearch = $(this).val();
+      console.log(livesearch)
+      if (livesearch != " "){
+        $.ajax(
+          {
+            type:'POST',
+            url:"/searchdata/",
+            data:{ 
+              'livesearch':livesearch,
+              'csrfmiddlewaretoken':'{{ csrf_token }}'
+            },
+            success:function(res){
+              // console.log(data)
+              $("#tbody").html(res.data)
+            }
+          }
+        );
+      }
+
+   })
+</script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+{%endblock content%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

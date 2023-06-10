@@ -1,0 +1,91 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<div class="container my-5">
+  {%if request.user.is_superuser%}
+  <form action="" class="mb-2 ml-auto">
+    <div class="formgroup">
+
+      <input type="text" class="form-control" placeholder = "search here" name = "livesearch" id = "livesearch">
+    </div>
+  </form>
+  {%endif%}
+  {%if data%}
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Collage</th>
+            <th>QR</th>
+            <th></th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        
+        <tbody id = 'tbody'>
+          
+          {%if request.user.is_superuser%}
+            {% for d in data%}
+          <tr>
+            <td><a href="{%url 'core:forms' d.slug%}">{{d.name}}</a></td>
+            <td><a href="{{d.qr_code.url}}"><img src="{{d.qr_code.url}}" style = "width: 200px"  alt=""></a></td>
+            <td><a href="{{d.qr_code.url}}" class="btn btn-warning" download> download</a></td>
+            <td><a href="{%url 'core:delete' d.id%}" class="btn btn-danger">Delete</a></td>
+          </tr>
+          
+          {%endfor%}
+          {% if data.has_next %}
+            <tr id="load-more">
+                <td colspan="3" class="text-center">
+                    <button class="btn btn-primary"
+                            hx-get="{% url 'core:home' %}?page={{data.next_page_number}}"
+                            hx-target="#load-more"
+                            hx-swap="outerHTML">Load More</button>
+                </td>
+            </tr>
+          {% endif %}
+          
+          {%else%}
+          
+          <tr>
+            <td><a href="{%url 'core:forms' data.slug%}">{{data.name}}</a></td>
+            <td><a href="{{data.qr_code.url}}"><img src="{{data.qr_code.url}}" style = "width: 200px"  alt=""></a></td>
+            <td><a href="{{data.qr_code.url}}" class="btn btn-warning" download> download</a></td>
+          </tr>
+          
+          {%endif%}
+          
+          
+
+  
+        </tbody>
+      </table>
+      {%else%}
+      <div class="alert alert-dark" role="alert">
+        Collage not registered
+      </div>
+      {%endif%}
+  </div>
+  <script>
+    $("#livesearch").keyup(function(){
+       var livesearch = $(this).val();
+       console.log(livesearch)
+       if (livesearch != " "){
+         $.ajax(
+           {
+             type:'POST',
+             url:"/searchcollage/",
+             data:{ 
+               'livesearch':livesearch,
+               'csrfmiddlewaretoken':'{{ csrf_token }}'
+             },
+             success:function(res){
+               // console.log(data)
+               $("#tbody").html(res.data)
+             }
+           }
+         );
+       }
+ 
+    })
+ </script>
+{%endblock content%}

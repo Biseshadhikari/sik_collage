@@ -1,0 +1,10 @@
+{%for student in students%}
+            <tr>
+              
+                <td>
+                    {{student.name}}
+                </td>
+                <td> <a href="{%url 'core:detailview' student.id%}" class="btn btn-primary">View Detail</a></td>
+                
+            </tr>
+{%endfor%}

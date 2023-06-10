@@ -1,0 +1,55 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="container">
+    
+
+    <div class="row justify-content-center my-3 ">
+        <div class="col-sm-5 border p-5 shadow  rounded">
+            {% if messages %}
+                {% for msg in messages %}
+                <div class="alert alert-warning alert-dismissible my-3  " role="alert">
+                    <button type="button" class="close w-25" data-dismiss="alert" aria-label="Close">x</button>
+                    
+
+                    {{msg.message}}
+                </div>
+                {% endfor %}
+            {% endif %}
+            <h1 class="mt-5 text-center color-red">Add Collage</h1>
+            <hr>    
+            <form method = "post" enctype="multipart/form-data">
+                {%csrf_token%}
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select Collage Username</label>
+                    <select class="form-control" name = "username">
+                    {%for u in user%}
+                      <option>{{u.username}}</option>
+                    {%endfor%}
+                    </select>
+                  </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Collage Name</label>
+                  <input type="text" class="form-control" name = "collage">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Address</label>
+                    <input type="text" class="form-control" name = "address">
+                </div>
+                <div class="form-group">
+                    <label>Collage Picture</label>
+                    <input class="form-control "  type="file" name = "image">
+                    
+                </div>
+                  
+
+                    
+                <div class="row  justify-content-center mt-5">
+                    <button type="submit" class="btn btn-primary col-3 rounded  ">Submit</button>
+                </div>
+                
+              </form>
+        </div>
+    </div>
+</div>
+
+{%endblock content%}

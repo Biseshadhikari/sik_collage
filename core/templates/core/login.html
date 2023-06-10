@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="container">
+    <div class="row  justify-content-center mt-2">
+      <img src="{{collage.image.url}}" style = " width: 100px;"  alt="">
+    </div>
+    <p class="mt-2 text-center color-red">{{collage.name}}</p>
+    <hr>  
+    <div class="row justify-content-center my-3 ">
+        <div class="col-sm-5 border p-5 shadow  rounded">
+        
+          <h1>Login</h1>
+          <hr>
+          {% if messages %}
+                {% for msg in messages %}
+                <div class="alert alert-warning alert-dismissible my-3  " role="alert">
+                    <button type="button" class="close w-25" data-dismiss="alert" aria-label="Close">x</button>
+                    
+
+                    {{msg.message}}
+                </div>
+                {% endfor %}
+        {% endif %}
+            <form method = "post">
+                {%csrf_token%}
+                <div class="form-group form-group-sm">
+                  <label>Username</label>
+                  <input type="text" class="form-control " name = "username">
+                </div>
+               
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name = "password">
+                  </div>
+                  
+                  
+                <div class="row justify-content-center">
+                    <button type="submit" class="btn btn-primary  mr-3 ">Login</button>
+                </div>
+                
+              </form>
+        </div>
+    </div>
+</div>
+
+{%endblock content%}

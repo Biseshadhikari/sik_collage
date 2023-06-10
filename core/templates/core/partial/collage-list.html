@@ -1,0 +1,9 @@
+
+{% for d in data%}
+<tr>
+<td><a href="{%url 'core:forms' d.slug%}">{{d.name}}</a></td>
+<td><a href="{{d.qr_code.url}}"><img src="{{d.qr_code.url}}" style = "width: 200px"  alt=""></a></td>
+<td><a href="{{d.qr_code.url}}" class="btn btn-warning" download> download</a></td>
+</tr>
+
+{%endfor%}
