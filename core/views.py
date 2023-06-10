@@ -16,7 +16,23 @@ def deletecollage(request,pk):
         collage.delete()
         return redirect('core:home')
     return render(request,'core/index.html')
+@login_required(login_url = 'core:login')
+def student(request,slug):
+    if request.user.is_superuser:
+        collage = Collage.objects.get(slug = slug)
+        students = CollageForm.objects.filter(collage = collage)
+        page = request.GET.get('page')
+        paginator = Paginator(students,2)
+        try:
+            students = paginator.page(page)
+        except Exception as  PageNotAnInteger:
+            students = paginator.page(1)
 
+        except Exception as  EmptyPage:
+            collageform = paginator.page(paginator.num_pages)
+        return render(request,'core/registeredStudent.html',{'students':students,"page":page})
+    return redirect('core:home')
+    
 @login_required(login_url = 'core:login')
 def index(request):
     page_obj = None
