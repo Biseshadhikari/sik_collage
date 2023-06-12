@@ -1,6 +1,6 @@
 {% for d in data%}
 <tr>
-  <td class="pt-4 pl-sm-4"><a href="{%url 'core:student' d.slug%}" class="mt-5">{{d.name}}</a></td>
+  <td class="pt-4 pl-sm-4"><a href="{%url 'core:student' d.slug%}" class="mt-5">{{data.name|slice:":18" }}...</a></td>
   <td><a href="{{d.qr_code.url}}"><img src="{{d.qr_code.url}}" style = "width: 150px"  alt=""></a></td>
   <td>
     <a href="{%url 'core:delete' d.id%}" class="btn btn-danger mb-3 mt-2">Delete</a>
