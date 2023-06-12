@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u7zl^sisu+a=2_6w35710h0ohf514ywnn8@^km+zmxsq#v=jza'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-SITE_URL = 'http://127.0.0.1:8000/'
+SITE_URL = 'https://biseshadhikari.pythonanywhere.com/'
 
 # Application definition
 
@@ -106,7 +106,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'biseshadhikari0@gmail.com'
-EMAIL_HOST_PASSWORD = 'xpczhaqdblaxzoon'  
+EMAIL_HOST_PASSWORD = 'xpczhaqdblaxzoon'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -124,11 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-
-]
-STATIC_ROOT ='/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 MEDIA_URL = '/media/'

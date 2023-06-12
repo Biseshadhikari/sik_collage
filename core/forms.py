@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from .models import * 
+from django.contrib.auth.forms import PasswordChangeForm
 
 class StudentForms(ModelForm):
     class Meta: 
@@ -13,3 +14,11 @@ class StudentForms(ModelForm):
             'gpa': forms.NumberInput(attrs={'class': 'form-control'}),
             'faculty': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+class PasswordChangingForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Old Password'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'New Passowrd'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm new password'}))
+    class Meta:
+        model = User
+        fields = ['old_password', 'new_password1', 'new_password2']

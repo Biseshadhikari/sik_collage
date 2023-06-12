@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from core.models import *
 from django.contrib import messages
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login,logout,update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import StudentForms
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+from .forms import PasswordChangingForm
 from django.template.loader import render_to_string
 # from .forms import CollageForm
 @login_required(login_url = 'core:login')
@@ -35,7 +36,14 @@ def student(request,slug):
     
 @login_required(login_url = 'core:login')
 def index(request):
-    page_obj = None
+    print(request.user.last_login)
+    print(request.user.date_joined)
+    # if request.user.last_login == request.user.date_joined:
+    #     print(True)
+    # else:
+    #     print(False)
+
+    # page_obj = None
 
     if request.user.is_superuser:
         collage = Collage.objects.all()
@@ -125,10 +133,14 @@ def register(request):
     
 def user_login(request):
     if  not request.user.is_authenticated:
+        
         if request.method =='POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
-            print(username,password)
+            user = User.objects.get(username = username)
+            
+           
+            # print(username,password)
             user_obj = User.objects.filter(username = username).first()
             if  user_obj is None:
                 messages.success(request,'User not found!!! please signin with correct username')
@@ -136,11 +148,18 @@ def user_login(request):
            
             user = authenticate(username = username,password= password)
             if user is not None:
-                login(request,user)
+                if user.last_login:
+                    login(request,user)
+                    print(False)
+                    return redirect('core:home')
+                else:
+                    login(request,user)
+                    print(True)
+                    return redirect('core:change')
             else:
                 messages.success(request,'Wrong password')
                 return redirect('/login')
-            return redirect('core:home')
+            # return redirect('core:home')
             
 
         return render(request,'core/login.html')
@@ -226,6 +245,24 @@ def searchdata(request):
         return JsonResponse({'data':t})
     return JsonResponse({})
 
+@login_required(login_url = 'core:login')
+def change(request):
+    # user = User.objects.get(username = request.user.username)
+    
+    fm = PasswordChangingForm(user = request.user)
+    if request.method == 'POST':
+        fm = PasswordChangingForm(user = request.user,data = request.POST)
+        print(request.POST)
+        if fm.is_valid():
+            fm.save()
+            update_session_auth_hash(request,fm.user)
+            messages.success(request,"Password changed successfully")
+            return redirect("core:change")
+    
+
+    
+    return render(request,'core/change.html',{"form":fm})
+
 def searchcollage(request):
     
     if request.method == "POST":
@@ -241,3 +278,18 @@ def searchcollage(request):
         
         return JsonResponse({'data':t})
     return JsonResponse({})
+@login_required(login_url="core:login")
+def changepassword(request):
+    fm = PasswordChangingForm(user = request.user)
+    if request.method == 'POST':
+        fm = PasswordChangingForm(user = request.user,data = request.POST)
+        print(request.POST)
+        if fm.is_valid():
+            fm.save()
+            update_session_auth_hash(request,fm.user)
+            messages.success(request,"Password changed successfully")
+            return redirect("core:changepassword")
+        
+
+    
+    return render(request,'core/changepassword.html',{"form":fm})

@@ -30,7 +30,9 @@ urlpatterns = [
     path('delete/<int:pk>',views.deletecollage,name = 'delete'),
     path('searchdata/',views.searchdata,name = 'searchdata'),
     path('searchcollage/',views.searchcollage,name = 'searchcollage'),
-    path('students/colllage/<slug>',views.student,name = "student")
+    path('students/colllage/<slug>',views.student,name = "student"),
+    path('first-time-login/changepassword',views.change,name = "change")
+    ,path('changepassword',views.changepassword,name = "changepassword")
     
     
 ]

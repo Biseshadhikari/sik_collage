@@ -28,10 +28,10 @@
             <td class="pt-4 pl-sm-4"><a href="{%url 'core:student' d.slug%}" class="mt-5">{{d.name}}</a></td>
             <td><a href="{{d.qr_code.url}}"><img src="{{d.qr_code.url}}" style = "width: 150px"  alt=""></a></td>
             <td>
-              <a href="{%url 'core:delete' d.id%}" class="btn btn-danger mb-3 mt-2">Delete</a>
-              <br>
+              <a href="{%url 'core:delete' d.id%}" class="btn btn-danger  mt-2">Delete</a>
+              
               <hr>
-              <a href="{{d.qr_code.url}}" class="btn btn-warning mt-5 mb-2" download> download</a>
+              <a href="{{d.qr_code.url}}" class="btn btn-warning  mb-2 mr-3" download> download</a>
               
             </td>
             
