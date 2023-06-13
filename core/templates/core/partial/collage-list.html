@@ -1,3 +1,4 @@
+{%if data%}
 {% for d in data%}
 <tr>
   <td class="pt-4 pl-sm-4"><a href="{%url 'core:student' d.slug%}" class="mt-5">{{d.name|slice:":18"}}....</a></td>
@@ -13,3 +14,8 @@
 </tr>
 
 {%endfor%}
+{%else%}
+<div class="alert alert-dark" role="alert">
+  No records available
+</div>
+{%endif%}

@@ -1,3 +1,4 @@
+{%if students%}
 {%for student in students%}
             <tr>
               
@@ -8,3 +9,8 @@
                 
             </tr>
 {%endfor%}
+{%else%}
+<div class="alert alert-dark" role="alert">
+    No records available
+  </div>
+{%endif%}
