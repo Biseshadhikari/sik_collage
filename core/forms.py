@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from .models import * 
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
 
 class StudentForms(ModelForm):
     class Meta: 
@@ -22,3 +23,15 @@ class PasswordChangingForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ['old_password', 'new_password1', 'new_password2']
+
+
+
+# class UserForm(ModelForm):
+#     class Meta: 
+#         model = User
+#         exclude = ('username',)
+#         widgets = {
+#             'name': forms.TextInput(attrs={'class': 'form-control'}),
+#             'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            
+#         }

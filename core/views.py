@@ -150,7 +150,7 @@ def user_login(request):
             if user is not None:
                 if user.last_login:
                     login(request,user)
-                    print(False)
+                    # print(False)
                     return redirect('core:home')
                 else:
                     login(request,user)
@@ -293,3 +293,38 @@ def changepassword(request):
 
     
     return render(request,'core/changepassword.html',{"form":fm})
+
+def updateuser(request,pk):
+    user = User.objects.get(id = pk)
+    if request.method == 'POST': 
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        
+        user.username = username
+        user.email = email
+        user.save()
+        messages.success(request,"updated successfully")
+        return redirect(f"/updateuser/{pk}")
+        
+    
+    return render(request,'core/updateuser.html',{'user':user})
+
+
+
+def deleteuser(request,pk):
+    user = User.objects.get(id = pk)
+    user.delete()
+    return redirect('core:viewuser')
+
+def viewuser(request):
+    users = User.objects.all()
+    page = request.GET.get('page')
+    paginator = Paginator(users,10)
+    try:
+        users = paginator.page(page)
+    except Exception as  PageNotAnInteger:
+        users = paginator.page(1)
+
+    except Exception as  EmptyPage:
+        users = paginator.page(paginator.num_pages)
+    return render(request,'core/collageuserlist.html',{'users':users})

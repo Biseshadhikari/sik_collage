@@ -32,7 +32,10 @@ urlpatterns = [
     path('searchcollage/',views.searchcollage,name = 'searchcollage'),
     path('students/colllage/<slug>',views.student,name = "student"),
     path('first-time-login/changepassword',views.change,name = "change")
-    ,path('changepassword',views.changepassword,name = "changepassword")
+    ,path('changepassword',views.changepassword,name = "changepassword"),
+    path('updateuser/<pk>',views.updateuser,name = "updateuser"),
+    path('deleteuser/<pk>',views.deleteuser,name = "deleteuser"),
+    path('viewuser',views.viewuser,name = "viewuser"),
     
     
 ]

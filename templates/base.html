@@ -41,6 +41,7 @@
                   {%if request.user.is_superuser%}
                   <a class="dropdown-item" href="{%url 'core:addcollage' %}">Add collage</a>
                   <a class="dropdown-item" href="{%url 'core:register'%}">Create User Account</a>
+                  <a class="dropdown-item" href="{%url 'core:viewuser'%}">View Users</a>
                   {%endif%}
                   {%if request.user.is_staff == False%}
                   <a class="dropdown-item" href="{%url 'core:viewStudents'%}">View Students</a>
