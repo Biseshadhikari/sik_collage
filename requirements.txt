@@ -5,4 +5,5 @@ Pillow==9.5.0
 pypng==0.20220715.0
 qrcode==7.4.2
 sqlparse==0.4.4
+whitenoise==6.2.0
 typing_extensions==4.6.3
