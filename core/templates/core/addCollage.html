@@ -1,4 +1,5 @@
 {%extends 'base.html'%}
+{%load static%}
 {%block content%}
 <div class="container">
     
@@ -37,10 +38,12 @@
                 </div>
                 <div class="form-group">
                     <label>Collage Picture</label>
-                    <input class="form-control "  type="file" name = "image">
+                    <input class="form-control "  type="file" name = "image" onchange="getimage(event)">
                     
                 </div>
-                  
+                  <div id = "photodiv">
+                    <img     id = "newimage" class = "img-thumbnail">
+                  </div>
 
                     
                 <div class="row  justify-content-center mt-5">
@@ -51,5 +54,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function getimage(event){
+        var image = URL.createObjectURL(event.target.files[0])
+        var imagediv = document.getElementById('photodiv')
+        var newimage = document.getElementById('newimage')
+        newimage.src = image
+        imagediv.append
+    }
+</script>
 
 {%endblock content%}
